@@ -8,10 +8,6 @@ namespace ConsoleApp8
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
         public class bankAccount
         {
             public int Balance { get; set; }
@@ -21,7 +17,7 @@ namespace ConsoleApp8
 
             public void transaction(int trans)
             {
-
+                Balance =+ trans;
             }
         }
         public class savingsAccount : bankAccount
@@ -58,15 +54,19 @@ namespace ConsoleApp8
 
             public void request(string r)
             {
+                Deque();
             }
             public void request(transactions tranny)
             {
+                enque(tranny);
             }
             private void enque(transactions newItem)
             {
+                tranny.Add(newItem);
             }
             private void Deque()
             {
+                tranny.RemoveAt(0);
             }
         }
 
