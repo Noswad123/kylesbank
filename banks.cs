@@ -6,69 +6,72 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp8
 {
-    class Program
+    public class BankAccount
     {
-        public class bankAccount
+        private int Balance { get; set; }
+        private string accountHolder { get; set; }
+        private int accountIdNumber { get; set; }
+        private bool isMember { get; set; }
+        protected TransactionQueue BankTransactions;
+
+        public void applyTransaction(Transactions trans)
         {
-            public int Balance { get; set; }
-            public string accountHolder { get; set; }
-            public int accountIdNumber { get; set; }
-            public bool isMember { get; set; }
-
-            public void transaction(int trans)
-            {
-                Balance =+ trans;
-            }
+            Balance += trans.amount;
         }
-        public class savingsAccount : bankAccount
-        {
-            public int interestRate { get; set; }
-
-            public void interestCharge()
-            {
-                var interest = Balance * interestRate;
-                transaction(interest);
-            }
-        }
-        public class checkingAccount : bankAccount
-        {
-            public int serviceFee { get; set; }
-
-            public void yearlyFee()
-            {
-                var yearlyCharge = 100;
-                transaction(yearlyCharge);
-            }
-        }
-        public class transactions :bankAccount
-        {
-            public int amount { get; set; }
-            public int transactionId { get; set; }
-            public string nameOfCompany { get; set; }
-
-        }
-        
-        public class que :bankAccount
-        {
-            List<transactions> tranny;
-
-            public void request(string r)
-            {
-                Deque();
-            }
-            public void request(transactions tranny)
-            {
-                enque(tranny);
-            }
-            private void enque(transactions newItem)
-            {
-                tranny.Add(newItem);
-            }
-            private void Deque()
-            {
-                tranny.RemoveAt(0);
-            }
-        }
-
     }
+    public class SavingsAccount : BankAccount
+    {
+        public int interestRate { get; set; }
+
+        public void interestCharge(int amount, int id, string company)
+        {
+            Transactions interestCharge = new Transactions(amount, id, company);
+            BankTransactions.request(interestCharge);
+        }
+    }
+    public class CheckingAccount : BankAccount
+    {
+        public int serviceFee { get; set; }
+
+        public void yearlyFee(int amount, int id, string company)
+        {
+            Transactions yearlyCharge = new Transactions(amount, id, company);
+            BankTransactions.request(yearlyCharge);
+        }
+    }
+    public class Transactions 
+    {
+        public int amount { get; set; }
+        public int transactionId { get; set; }
+        public string nameOfCompany { get; set; }
+
+        public Transactions(int amount, int id, string company)
+        {
+            this.amount = amount;
+            this.transactionId = id;
+            this.nameOfCompany = company;
+        }
+    }
+
+    public class TransactionQueue 
+    {
+        List<Transactions> tranny;
+
+        public Transactions request(string r)
+        {
+            return tranny[0];
+        }
+        public void request(Transactions tranny)
+        {
+            enqueue(tranny);
+        }
+        private void enqueue(Transactions newItem)
+        {
+            tranny.Add(newItem);
+        }
+        private void dequeue()
+        {
+            tranny.RemoveAt(0);
+        }
+    }   
 }
